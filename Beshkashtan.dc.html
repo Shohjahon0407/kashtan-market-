@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/industry-82eb9f71-41ec-4ceb-b55e-5d32dd3f0c42/styles.css">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:var(--color-bg)}
+a{color:var(--color-accent-700);text-decoration:none}
+a:hover{color:var(--color-accent-900)}
+.dv-turn{padding:44px 48px 40px;border-bottom:1px solid var(--color-divider);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 8px}
+.dv-tid{font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.1em;padding:3px 8px;background:var(--color-accent-900);color:var(--color-bg)}
+.dv-tname{font-family:var(--font-heading);font-weight:600;font-size:15px;letter-spacing:.02em}
+.dv-opts{display:grid;grid-template-columns:repeat(5,428px);gap:46px 34px;align-items:start;width:max-content}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px}
+.dv-oid{font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.1em;padding:2px 7px;background:color-mix(in srgb,var(--color-text) 10%,transparent);color:var(--color-text)}
+.dv-olabel{display:flex;align-items:center;gap:8px;font-size:12px;color:color-mix(in srgb,var(--color-text) 75%,transparent)}
+.dv-opt:target .dv-oid{background:var(--color-accent);color:var(--color-bg)}
+.dv-next{margin:34px 0 0;font-size:12.5px;color:color-mix(in srgb,var(--color-text) 74%,transparent)}
+</style>
+</helmet>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-home" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M3 9.6 12 3l9 6.6V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"></path><path d="M9.5 21v-7.3h5V21"></path></symbol>
+<symbol id="i-search" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="11" cy="11" r="7"></circle><path d="m20.5 20.5-4.4-4.4"></path></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7 2.5 7H3.5S6 15 6 9Z"></path><path d="M10.2 20a2 2 0 0 0 3.6 0"></path></symbol>
+<symbol id="i-user" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 20.5c0-3.9 3.4-6 7.5-6s7.5 2.1 7.5 6"></path></symbol>
+<symbol id="i-cart" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="9.5" cy="20" r="1.4"></circle><circle cx="17.5" cy="20" r="1.4"></circle><path d="M2.5 3.5H5l2.7 12.2h10.2L20.5 7H6"></path></symbol>
+<symbol id="i-play" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="9"></circle><path d="M10 8.4 16 12l-6 3.6z"></path></symbol>
+<symbol id="i-playfill" viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="M8 5.2 19 12 8 18.8z"></path></symbol>
+<symbol id="i-clipboard" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M9 4.5H6.5A1.5 1.5 0 0 0 5 6v14a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 19 20V6a1.5 1.5 0 0 0-1.5-1.5H15"></path><path d="M9 3.5h6v2.4H9z"></path><path d="M8.8 11h6.4M8.8 15h6.4M8.8 18.5h3.4"></path></symbol>
+<symbol id="i-utensils" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M6.5 2.5v6a2.5 2.5 0 0 0 5 0v-6"></path><path d="M9 8.5V21.5"></path><path d="M18.5 2.5c-1.6 2.2-2.2 4.8-2.2 8h4.4c0-3.2-.6-5.8-2.2-8z"></path><path d="M18.5 10.5V21.5"></path></symbol>
+<symbol id="i-basket" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M3 9h18l-1.6 10.3a2 2 0 0 1-2 1.7H6.6a2 2 0 0 1-2-1.7z"></path><path d="m8 9 2.4-6M16 9l-2.4-6"></path><path d="M9.6 13v4M14.4 13v4"></path></symbol>
+<symbol id="i-flame" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M12 21.5c3.9 0 6.8-2.6 6.8-6.3 0-4.4-4.4-6-5.4-12.7-2.4 4.9-4.6 6.4-4.6 9 0 1.5.5 2.5 1 3-1.5 0-4.6 1-4.6 4.4 0 1.9 2.9 2.6 6.8 2.6z"></path></symbol>
+<symbol id="i-package" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="m3 7.5 9-4.8 9 4.8v9L12 21.3 3 16.5z"></path><path d="m3 7.5 9 4.8 9-4.8M12 12.3v9"></path><path d="m7.5 5.1 9 4.8"></path></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M9 5.5a3 3 0 0 1 6 0v5.5a3 3 0 0 1-6 0z"></path><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3.5"></path></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M2.5 7.5H7L8.5 5h7L17 7.5h4.5v12h-19z"></path><circle cx="12" cy="13.3" r="3.6"></circle></symbol>
+<symbol id="i-text" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M21 14.5a2.5 2.5 0 0 1-2.5 2.5H8l-5 4V5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5z"></path><path d="M7.5 8h9M7.5 12h5.5"></path></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round"><path d="M12 5.5v13M5.5 12h13"></path></symbol>
+<symbol id="i-minus" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round"><path d="M5.5 12h13"></path></symbol>
+<symbol id="i-right" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="m9 4.5 7.5 7.5L9 19.5"></path></symbol>
+<symbol id="i-left" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="m15 4.5-7.5 7.5L15 19.5"></path></symbol>
+<symbol id="i-down" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="m5 8.5 7 7 7-7"></path></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M12 21.5s7-6 7-11.2a7 7 0 1 0-14 0C5 15.5 12 21.5 12 21.5z"></path><circle cx="12" cy="10" r="2.6"></circle></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="8.8"></circle><path d="M12 6.6V12l3.6 2.2"></path></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M12 20.6 4.9 13.4a4.6 4.6 0 0 1 6.4-6.6l.7.7.7-.7a4.6 4.6 0 0 1 6.4 6.6z"></path></symbol>
+<symbol id="i-share" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="18" cy="5.5" r="2.6"></circle><circle cx="6" cy="12" r="2.6"></circle><circle cx="18" cy="18.5" r="2.6"></circle><path d="m8.3 10.7 7.4-3.9M8.3 13.3l7.4 3.9"></path></symbol>
+<symbol id="i-mute" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M11 4.5 6.2 8.8H2.8v6.4h3.4L11 19.5z"></path><path d="m16 9.5 5 5M21 9.5l-5 5"></path></symbol>
+<symbol id="i-star" viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="m12 3.4 2.7 5.5 6 .9-4.35 4.24 1.03 6L12 17.2l-5.38 2.84 1.03-6L3.3 9.8l6-.9z"></path></symbol>
+<symbol id="i-truck" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M2.5 5.5h11v11h-11z"></path><path d="M13.5 9h4l4 4v3.5h-8z"></path><circle cx="7" cy="18.5" r="2"></circle><circle cx="17" cy="18.5" r="2"></circle></symbol>
+<symbol id="i-cash" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M2.5 6.5h19v11h-19z"></path><circle cx="12" cy="12" r="2.5"></circle><path d="M5.6 12h.9M17.5 12h.9"></path></symbol>
+<symbol id="i-card" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M2.5 5.5h19v13h-19z"></path><path d="M2.5 10h19"></path><path d="M6 14.5h4"></path></symbol>
+<symbol id="i-image" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M3 4.5h18v15H3z"></path><circle cx="8.4" cy="9.4" r="1.6"></circle><path d="m4 17.5 5-5 3.5 3 3-3 5.5 5"></path></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m5 12.5 4.5 4.5L19 7"></path></symbol>
+<symbol id="i-filter" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round"><path d="M3.5 6.5h17M6.5 12h11M10 17.5h4"></path></symbol>
+<symbol id="i-x" viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round"><path d="m6 6 12 12M18 6 6 18"></path></symbol>
+</defs></svg>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">MANABU — Android, to'liq oqim</span></div>
+
+<div style="display:flex;gap:22px;flex-wrap:wrap;margin:0 0 30px">
+<div class="blueprint" style="padding:16px 20px;max-width:430px">
+<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:8px">Dizayn qarorlari</div>
+<p style="margin:0 0 10px;font-size:13px;line-height:1.5">Bosh sahifa uch qavatga bo'lindi: <strong>4 do'kon</strong> (raqamlangan 01–04, teng o'lchamda, hech qaysisi ustun emas) → <strong>yo'q tovar buyurtmasi</strong> → <strong>video lenta</strong>. Har video ostida o'sha videoga tegishli mahsulotlar yonga scroll bo'ladi.</p>
+<p style="margin:0;font-size:13px;line-height:1.5">Eski dizayndagi gradientli banner, har xil o'lchamdagi logolar va tartibsiz interval olib tashlandi. O'rniga bitta modul to'r, bitta urg'u rang va aniq tipografik ierarxiya.</p>
+</div>
+
+<div class="blueprint" style="padding:16px 20px;max-width:400px">
+<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:8px">Taxminlar / eslatma</div>
+<table class="table" style="font-size:12.5px">
+<tbody>
+<tr><td style="width:96px;color:color-mix(in srgb,var(--color-text) 74%,transparent)">Savat</td><td>Har do'konga alohida, alohida yetkazish</td></tr>
+<tr><td style="color:color-mix(in srgb,var(--color-text) 74%,transparent)">To'lov</td><td>Naqd + karta (Uzcard / Humo)</td></tr>
+<tr><td style="color:color-mix(in srgb,var(--color-text) 74%,transparent)">Yetkazish</td><td>Tez · vaqt tanlash · o'zi olib ketish</td></tr>
+<tr><td style="color:color-mix(in srgb,var(--color-text) 74%,transparent)">Rasmlar</td><td><strong>Men rasm chiza olmayman.</strong> Bo'sh joylarga o'z suratingizni sudrab tashlang — saqlanadi.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Bosh sahifa — 4 do'kon</div>
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="428px,908px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);font-family:var(--font-body);color:var(--color-text)">
+
+<div style="padding:12px 16px 10px;display:flex;align-items:flex-start;gap:12px;border-bottom:1px solid var(--color-divider)">
+<div style="flex:1;min-width:0">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:21px;letter-spacing:.16em;line-height:1">MANABU</div>
+<div style="display:flex;align-items:center;gap:4px;margin-top:5px;color:color-mix(in srgb,var(--color-text) 75%,transparent)">
+<svg width="13" height="13" style="display:block"><use href="#i-pin"></use></svg>
+<span style="font-size:11.5px;white-space:nowrap">Chilonzor 12-kv, 4-uy</span>
+<svg width="13" height="13" style="display:block"><use href="#i-down"></use></svg>
+</div>
+</div>
+<div style="display:flex;gap:6px">
+<div style="width:34px;height:34px;border:1px solid var(--color-divider);display:grid;place-items:center;position:relative"><svg width="18" height="18" style="display:block"><use href="#i-bell"></use></svg><span style="position:absolute;top:5px;right:6px;width:6px;height:6px;background:var(--color-accent)"></span></div>
+<div style="width:34px;height:34px;border:1px solid var(--color-divider);display:grid;place-items:center"><svg width="18" height="18" style="display:block"><use href="#i-user"></use></svg></div>
+</div>
+</div>
+
+<div style="flex:1;min-height:0;overflow:hidden">
+<div style="padding:12px 16px 0">
+<div style="display:flex;align-items:center;gap:9px;height:40px;padding:0 12px;border:1px solid var(--color-divider);background:var(--color-surface);color:color-mix(in srgb,var(--color-text) 72%,transparent)">
+<svg width="17" height="17" style="display:block"><use href="#i-search"></use></svg>
+<span style="font-size:13.5px">Mahsulot yoki do'kon qidiring</span>
+</div>
+</div>
+
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:18px 16px 9px">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.16em;text-transform:uppercase">Do'konlar</span>
+<span style="font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.14em;color:color-mix(in srgb,var(--color-text) 72%,transparent)">04 / 04</span>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;padding:0 16px">
+<sc-for list="{{ stores }}" as="s" hint-placeholder-count="4">
+<div style="border:1px solid var(--color-divider);display:flex;flex-direction:column;background:var(--color-bg)">
+<sc-if value="{{ tilePhoto }}" hint-placeholder-val="{{ true }}">
+<div style="position:relative;height:78px;overflow:hidden;border-bottom:1px solid var(--color-divider)">
+<image-slot id="{{ s.slot }}" shape="rect" fit="cover" placeholder="{{ s.ph }}"></image-slot>
+<span style="position:absolute;top:0;left:0;padding:3px 7px;background:{{ s.tone }};color:var(--color-bg);font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.1em;pointer-events:none">{{ s.n }}</span>
+</div>
+</sc-if>
+<sc-if value="{{ tileDiagram }}">
+<div style="position:relative;height:78px;border-bottom:1px solid var(--color-divider);display:grid;place-items:center;color:{{ s.tone }};background:repeating-linear-gradient(45deg,var(--color-accent-200) 0 1px,transparent 1px 8px),var(--color-accent-100)">
+<svg width="34" height="34" style="display:block"><use href="{{ s.icon }}"></use></svg>
+<span style="position:absolute;top:0;left:0;padding:3px 7px;background:{{ s.tone }};color:var(--color-bg);font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.1em">{{ s.n }}</span>
+</div>
+</sc-if>
+<div style="padding:9px 10px 10px;display:flex;flex-direction:column;gap:5px;flex:1">
+<div style="display:flex;align-items:flex-start;gap:6px">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:14.5px;line-height:1.08;letter-spacing:.01em;flex:1;text-wrap:pretty">{{ s.name }}</div>
+<svg width="15" height="15" style="display:block;flex:none;margin-top:1px;color:{{ s.tone }}"><use href="{{ s.icon }}"></use></svg>
+</div>
+<div style="font-size:10.5px;line-height:1.3;color:color-mix(in srgb,var(--color-text) 74%,transparent)">{{ s.kind }}</div>
+<div style="display:flex;align-items:center;gap:5px;margin-top:auto;padding-top:5px;border-top:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);color:color-mix(in srgb,var(--color-text) 72%,transparent)">
+<svg width="11" height="11" style="display:block"><use href="#i-clock"></use></svg>
+<span style="font-size:10px">{{ s.time }}</span>
+<span style="font-size:10px;margin-left:auto">{{ s.count }}</span>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="padding:16px 16px 0">
+<div class="blueprint" style="padding:11px 12px;display:flex;align-items:center;gap:11px;background:var(--color-accent-100)">
+<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+<div style="flex:1;min-width:0">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:13.5px;letter-spacing:.02em">YO'Q TOVAR BUYURTMASI</div>
+<div style="font-size:10.5px;line-height:1.35;margin-top:2px;color:var(--color-accent-800)">Appda topilmadimi? Yozing, rasm yoki ovoz yuboring</div>
+<div style="display:flex;gap:5px;margin-top:7px">
+<span style="display:flex;align-items:center;gap:4px;padding:2px 7px;border:1px solid var(--color-accent-400);color:var(--color-accent-800);font-size:9.5px"><svg width="11" height="11" style="display:block"><use href="#i-text"></use></svg>Matn</span>
+<span style="display:flex;align-items:center;gap:4px;padding:2px 7px;border:1px solid var(--color-accent-400);color:var(--color-accent-800);font-size:9.5px"><svg width="11" height="11" style="display:block"><use href="#i-camera"></use></svg>Rasm</span>
+<span style="display:flex;align-items:center;gap:4px;padding:2px 7px;border:1px solid var(--color-accent-400);color:var(--color-accent-800);font-size:9.5px"><svg width="11" height="11" style="display:block"><use href="#i-mic"></use></svg>Ovoz</span>
+</div>
+</div>
+<div style="width:32px;height:32px;background:var(--color-accent);color:var(--color-bg);display:grid;place-items:center;flex:none"><svg width="17" height="17" style="display:block"><use href="#i-right"></use></svg></div>
+</div>
+</div>
+
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:20px 16px 9px">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.16em;text-transform:uppercase">Video lenta</span>
+<span style="font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.1em;color:var(--color-accent-700)">BARCHASI →</span>
+</div>
+<div style="margin:0 16px;height:120px;border:1px solid var(--color-divider);border-bottom:0;position:relative;overflow:hidden">
+<image-slot id="mnb-v1-peek" shape="rect" fit="cover" placeholder="Video 1 — marinovka"></image-slot>
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(29,45,61,.45) 0%,rgba(29,45,61,0) 45%);pointer-events:none"></div>
+<span style="position:absolute;top:8px;left:8px;padding:3px 7px;background:var(--color-accent-900);color:var(--color-bg);font-family:var(--font-heading);font-weight:600;font-size:9.5px;letter-spacing:.1em;pointer-events:none">03 · SHASHLIK MARENOFKA</span>
+</div>
+</div>
+
+<div style="display:flex;border-top:1px solid var(--color-divider);background:var(--color-bg)">
+<sc-for list="{{ navHome }}" as="t" hint-placeholder-count="5">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 0 8px;border-top:2px solid {{ t.bar }};color:{{ t.c }}">
+<div style="position:relative">
+<svg width="20" height="20" style="display:block"><use href="{{ t.i }}"></use></svg>
+<sc-if value="{{ t.b }}"><span style="position:absolute;top:-4px;right:-9px;min-width:14px;height:14px;padding:0 3px;background:var(--color-accent);color:var(--color-bg);font-family:var(--font-heading);font-weight:600;font-size:9px;display:grid;place-items:center">{{ t.b }}</span></sc-if>
+</div>
+<sc-if value="{{ navLabels }}" hint-placeholder-val="{{ true }}"><span style="font-family:var(--font-heading);font-weight:600;font-size:9px;letter-spacing:.06em;text-transform:uppercase">{{ t.l }}</span></sc-if>
+</div>
+</sc-for>
+</div>
+
+</div>
+</x-import>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Bosh sahifa — video + mahsulot lentasi</div>
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="428px,908px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);font-family:var(--font-body);color:var(--color-text)">
+
+<div style="padding:9px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--color-divider)">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:17px;letter-spacing:.16em;flex:1">MANABU</span>
+<svg width="19" height="19" style="display:block"><use href="#i-search"></use></svg>
+<svg width="19" height="19" style="display:block"><use href="#i-bell"></use></svg>
+</div>
+
+<div style="flex:1;min-height:0;overflow:hidden">
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:14px 16px 9px">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.16em;text-transform:uppercase">Video lenta</span>
+<span style="font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.1em;color:var(--color-accent-700)">BARCHASI →</span>
+</div>
+
+<div style="margin:0 16px;position:relative;height:428px;border:1px solid var(--color-divider);overflow:hidden">
+<div style="position:absolute;inset:0"><image-slot id="mnb-v1" shape="rect" fit="cover" placeholder="Vertikal video — marinovka sexi"></image-slot></div>
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(29,45,61,.5) 0%,rgba(29,45,61,0) 30%,rgba(29,45,61,0) 55%,rgba(29,45,61,.72) 100%);pointer-events:none"></div>
+<span style="position:absolute;top:9px;left:9px;padding:3px 8px;background:var(--color-accent-900);color:var(--color-bg);font-family:var(--font-heading);font-weight:600;font-size:9.5px;letter-spacing:.1em;pointer-events:none">03 · SHASHLIK MARENOFKA</span>
+<div style="position:absolute;top:9px;right:9px;display:flex;gap:6px;color:#fff;pointer-events:none">
+<span style="width:26px;height:26px;border:1px solid rgba(255,255,255,.55);display:grid;place-items:center"><svg width="14" height="14" style="display:block"><use href="#i-mute"></use></svg></span>
+<span style="padding:0 7px;height:26px;border:1px solid rgba(255,255,255,.55);display:grid;place-items:center;font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.06em">0:42</span>
+</div>
+<div style="position:absolute;left:0;right:0;bottom:0;padding:12px 12px 11px;color:#fff;pointer-events:none">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:17px;line-height:1.12;letter-spacing:.01em;text-wrap:pretty">Mol go'shti marinovkasi — 12 soatlik retsept</div>
+<div style="display:flex;align-items:center;gap:10px;margin-top:7px;font-size:10.5px;opacity:.85">
+<span>12,4 ming ko'rildi</span><span>·</span><span>2 kun oldin</span>
+</div>
+<div style="height:2px;background:rgba(255,255,255,.3);margin-top:10px"><div style="width:38%;height:100%;background:#fff"></div></div>
+</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:7px;padding:12px 16px 8px">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">Videodagi mahsulotlar</span>
+<span style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.1em;color:color-mix(in srgb,var(--color-text) 72%,transparent)">04</span>
+<span style="flex:1;height:1px;background:var(--color-divider)"></span>
+<span style="font-size:10px;color:color-mix(in srgb,var(--color-text) 72%,transparent)">yonga suring →</span>
+</div>
+
+<div style="display:flex;gap:9px;padding:0 16px 14px;overflow:hidden">
+<sc-for list="{{ vid1 }}" as="p" hint-placeholder-count="4">
+<div style="flex:none;width:122px;border:1px solid var(--color-divider);display:flex;flex-direction:column">
+<div style="height:96px;border-bottom:1px solid var(--color-divider);display:grid;place-items:center;color:var(--color-accent-600);background:repeating-linear-gradient(45deg,var(--color-accent-200) 0 1px,transparent 1px 8px),var(--color-accent-100)"><svg width="22" height="22" style="display:block;opacity:.75"><use href="#i-image"></use></svg></div>
+<div style="padding:7px 8px 8px;display:flex;flex-direction:column;gap:4px;flex:1">
+<div style="font-size:10.5px;line-height:1.25;height:26px;overflow:hidden;text-wrap:pretty">{{ p.name }}</div>
+<div style="font-size:9px;color:color-mix(in srgb,var(--color-text) 72%,transparent)">{{ p.unit }}</div>
+<div style="display:flex;align-items:center;gap:6px;margin-top:auto;padding-top:5px">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:.01em;flex:1">{{ p.price }}</span>
+<span style="width:24px;height:24px;background:var(--color-accent);color:var(--color-bg);display:grid;place-items:center;flex:none"><svg width="14" height="14" style="display:block"><use href="#i-plus"></use></svg></span>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="height:1px;background:var(--color-divider);margin:0 16px"></div>
+<div style="margin:14px 16px 0;height:70px;border:1px solid var(--color-divider);position:relative;overflow:hidden">
+<image-slot id="mnb-v2" shape="rect" fit="cover" placeholder="Video 2 — Toshkent oshi"></image-slot>
+<span style="position:absolute;top:8px;left:8px;padding:3px 7px;background:var(--color-accent-900);color:var(--color-bg);font-family:var(--font-heading);font-weight:600;font-size:9.5px;letter-spacing:.1em;pointer-events:none">01 · OFIYAT MILLIY TAOMLARI</span>
+</div>
+</div>
+
+<div style="display:flex;border-top:1px solid var(--color-divider);background:var(--color-bg)">
+<sc-for list="{{ navVideo }}" as="t" hint-placeholder-count="5">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 0 8px;border-top:2px solid {{ t.bar }};color:{{ t.c }}">
+<div style="position:relative">
+<svg width="20" height="20" style="display:block"><use href="{{ t.i }}"></use></svg>
+<sc-if value="{{ t.b }}"><span style="position:absolute;top:-4px;right:-9px;min-width:14px;height:14px;padding:0 3px;background:var(--color-accent);color:var(--color-bg);font-family:var(--font-heading);font-weight:600;font-size:9px;display:grid;place-items:center">{{ t.b }}</span></sc-if>
+</div>
+<sc-if value="{{ navLabels }}" hint-placeholder-val="{{ true }}"><span style="font-family:var(--font-heading);font-weight:600;font-size:9px;letter-spacing:.06em;text-transform:uppercase">{{ t.l }}</span></sc-if>
+</div>
+</sc-for>
+</div>
+
+</div>
+</x-import>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>To'liq ekran video (Reels)</div>
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" dark="{{ yes }}" hint-size="428px,908px">
+<div style="height:100%;position:relative;background:#12181f;font-family:var(--font-body);color:#fff;overflow:hidden">
+<div style="position:absolute;inset:0"><image-slot id="mnb-reel" shape="rect" fit="cover" placeholder="Vertikal video 9:16"></image-slot></div>
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,24,31,.65) 0%,rgba(18,24,31,0) 22%,rgba(18,24,31,0) 40%,rgba(18,24,31,.9) 88%);pointer-events:none"></div>
+
+<div style="position:absolute;top:0;left:0;right:0;padding:12px 14px;display:flex;align-items:center;gap:12px;pointer-events:none">
+<svg width="21" height="21" style="display:block"><use href="#i-left"></use></svg>
+<span style="flex:1;text-align:center;font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase">Video lenta</span>
+<svg width="19" height="19" style="display:block"><use href="#i-share"></use></svg>
+</div>
+
+<div style="position:absolute;right:12px;bottom:262px;display:flex;flex-direction:column;align-items:center;gap:17px;pointer-events:none">
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;white-space:nowrap"><svg width="25" height="25" style="display:block"><use href="#i-heart"></use></svg><span style="font-family:var(--font-heading);font-weight:600;font-size:10.5px">1 240</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;white-space:nowrap"><svg width="25" height="25" style="display:block"><use href="#i-text"></use></svg><span style="font-family:var(--font-heading);font-weight:600;font-size:10.5px">86</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;white-space:nowrap"><svg width="25" height="25" style="display:block"><use href="#i-share"></use></svg><span style="font-family:var(--font-heading);font-weight:600;font-size:10.5px">Ulash</span></div>
+<div style="width:36px;height:36px;border:1px solid rgba(255,255,255,.6);display:grid;place-items:center;font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:.06em">03</div>
+</div>
+
+<div style="position:absolute;left:0;right:0;bottom:0;padding:0 0 10px;pointer-events:none">
+<div style="padding:0 14px 11px;max-width:300px">
+<div style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);font-family:var(--font-heading);font-weight:600;font-size:9.5px;letter-spacing:.1em;margin-bottom:8px">SHASHLIK MARENOFKA<span style="opacity:.7">· 2 soat</span></div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.1;text-wrap:pretty">Mol go'shti marinovkasi — 12 soatlik retsept</div>
+<div style="font-size:11.5px;line-height:1.45;margin-top:6px;opacity:.8">Ziravorlar, piyoz va mineral suv nisbati. Bir kilogrammga 40 daqiqa tayyorgarlik.</div>
+</div>
+
+<div style="background:rgba(18,24,31,.55);border-top:1px solid rgba(255,255,255,.22);padding:10px 0 12px;pointer-events:auto">
+<div style="display:flex;align-items:center;gap:7px;padding:0 14px 9px">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase">Videodagi mahsulotlar</span>
+<span style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.1em;opacity:.55">04</span>
+<span style="flex:1;height:1px;background:rgba(255,255,255,.22)"></span>
+</div>
+<div style="display:flex;gap:8px;padding:0 14px;overflow:hidden">
+<sc-for list="{{ vid1 }}" as="p" hint-placeholder-count="4">
+<div style="flex:none;width:132px;border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;gap:8px;padding:7px">
+<div style="width:38px;height:38px;flex:none;display:grid;place-items:center;background:rgba(255,255,255,.12)"><svg width="17" height="17" style="display:block;opacity:.8"><use href="#i-image"></use></svg></div>
+<div style="flex:1;min-width:0">
+<div style="font-size:9.5px;line-height:1.2;height:23px;overflow:hidden">{{ p.name }}</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:12px;margin-top:2px">{{ p.price }}</div>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="margin:11px 14px 0;height:40px;background:var(--color-accent);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-heading);font-weight:600;font-size:14px;letter-spacing:.06em">
+<svg width="17" height="17" style="display:block"><use href="#i-cart"></use></svg>HAMMASINI SAVATGA · 334 000 so'm
+</div>
+</div>
+</div>
+</div>
+</x-import>
+</div>
+
+<div class="dv-opt" id="1d">
+<div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>Do'kon ichi — katalog</div>
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="428px,908px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);font-family:var(--font-body);color:var(--color-text)">
+
+<div style="padding:10px 14px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--color-divider)">
+<svg width="20" height="20" style="display:block"><use href="#i-left"></use></svg>
+<span style="flex:1;font-family:var(--font-heading);font-weight:600;font-size:14px;letter-spacing:.06em">01 · OFIYAT MILLIY TAOMLARI</span>
+<svg width="19" height="19" style="display:block"><use href="#i-search"></use></svg>
+</div>
+
+<div style="flex:1;min-height:0;overflow:hidden">
+<div style="position:relative;height:118px;border-bottom:1px solid var(--color-divider);overflow:hidden">
+<image-slot id="mnb-store-hero" shape="rect" fit="cover" placeholder="Do'kon banneri"></image-slot>
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(29,45,61,0) 40%,rgba(29,45,61,.78) 100%);pointer-events:none"></div>
+<div style="position:absolute;left:14px;right:14px;bottom:9px;color:#fff;display:flex;align-items:flex-end;gap:10px;pointer-events:none">
+<div style="flex:1">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:22px;line-height:1.05;letter-spacing:.02em">OFIYAT MILLIY TAOMLARI</div>
+<div style="font-size:10.5px;opacity:.85;margin-top:3px">Milliy taomlar · issiq yetkazish</div>
+</div>
+<span style="padding:3px 8px;border:1px solid rgba(255,255,255,.5);font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.08em">OCHIQ</span>
+</div>
+</div>
+
+<div style="display:flex;border-bottom:1px solid var(--color-divider)">
+<sc-for list="{{ storeMeta }}" as="m" hint-placeholder-count="3">
+<div style="flex:1;padding:9px 10px;border-right:1px solid var(--color-divider);display:flex;flex-direction:column;gap:2px">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 72%,transparent)">{{ m.k }}</span>
+<span style="font-family:var(--font-heading);font-weight:600;font-size:14px">{{ m.v }}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="display:flex;gap:7px;padding:11px 14px 10px;overflow:hidden">
+<span style="flex:none;padding:5px 11px;background:var(--color-accent);color:var(--color-bg);font-family:var(--font-heading);font-weight:600;font-size:11.5px;letter-spacing:.05em">BARCHASI 86</span>
+<sc-for list="{{ cats }}" as="c" hint-placeholder-count="4">
+<span style="flex:none;padding:5px 11px;border:1px solid var(--color-divider);font-family:var(--font-heading);font-weight:600;font-size:11.5px;letter-spacing:.05em;white-space:nowrap">{{ c }}</span>
+</sc-for>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;padding:0 14px">
+<sc-for list="{{ menu }}" as="p" hint-placeholder-count="4">
+<div style="border:1px solid var(--color-divider);display:flex;flex-direction:column">
+<div style="height:92px;border-bottom:1px solid var(--color-divider);display:grid;place-items:center;color:var(--color-accent-600);background:repeating-linear-gradient(45deg,var(--color-accent-200) 0 1px,transparent 1px 8px),var(--color-accent-100)"><svg width="24" height="24" style="display:block;opacity:.75"><use href="#i-image"></use></svg></div>
+<div style="padding:8px 9px 9px;display:flex;flex-direction:column;gap:3px;flex:1">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:14px;line-height:1.15">{{ p.name }}</div>
+<div style="font-size:10px;color:color-mix(in srgb,var(--color-text) 72%,transparent)">{{ p.unit }}</div>
+<div style="display:flex;align-items:center;gap:6px;margin-top:auto;padding-top:7px">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:14px;flex:1">{{ p.price }}</span>
+<span style="width:26px;height:26px;background:var(--color-accent);color:var(--color-bg);display:grid;place-items:center;flex:none"><svg width="15" height="15" style="display:block"><use href="#i-plus"></use></svg></span>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="border-top:1px solid var(--color-divider);padding:10px 14px 12px;background:var(--color-bg)">
+<div style="height:44px;background:var(--color-accent);color:var(--color-bg);display:flex;align-items:center;padding:0 14px;gap:10px">
+<svg width="19" height="19" style="display:block"><use href="#i-cart"></use></svg>
+<span style="flex:1;font-family:var(--font-heading);font-weight:600;font-size:14px;letter-spacing:.05em">SAVAT · 3 ta</span>
+<span style="font-family:var(--font-heading);font-weight:600;font-size:15px">90 000 so'm</span>
+</div>
+</div>
+
+</div>
+</x-import>
+</div>
+
+<div class="dv-opt" id="1e">
+<div class="dv-olabel"><a class="dv-oid" href="#1e">1e</a>Mahsulot sahifasi</div>
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="428px,908px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);font-family:var(--font-body);color:var(--color-text)">
+<div style="flex:1;min-height:0;overflow:hidden">
+<div style="position:relative;height:250px;border-bottom:1px solid var(--color-divider);overflow:hidden">
+<image-slot id="mnb-prod" shape="rect" fit="cover" placeholder="Mahsulot surati"></image-slot>
+<div style="position:absolute;top:12px;left:12px;right:12px;display:flex;align-items:center;gap:8px;pointer-events:none">
+<span style="width:32px;height:32px;background:rgba(242,242,243,.9);display:grid;place-items:center"><svg width="18" height="18" style="display:block"><use href="#i-left"></use></svg></span>
+<span style="flex:1"></span>
+<span style="width:32px;height:32px;background:rgba(242,242,243,.9);display:grid;place-items:center"><svg width="17" height="17" style="display:block"><use href="#i-heart"></use></svg></span>
+<span style="width:32px;height:32px;background:rgba(242,242,243,.9);display:grid;place-items:center"><svg width="16" height="16" style="display:block"><use href="#i-share"></use></svg></span>
+</div>
+<div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;pointer-events:none">
+<span style="width:18px;height:3px;background:var(--color-accent)"></span><span style="width:18px;height:3px;background:rgba(242,242,243,.65)"></span><span style="width:18px;height:3px;background:rgba(242,242,243,.65)"></span>
+</div>
+</div>
+
+<div style="padding:13px 16px 0">
+<div style="display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border:1px solid var(--color-divider);font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.1em;color:var(--color-accent-800);white-space:nowrap">01 · OFIYAT MILLIY TAOMLARI</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:27px;line-height:1.05;letter-spacing:.01em;margin-top:9px">Toshkent oshi</div>
+<div style="display:flex;align-items:flex-end;gap:9px;margin-top:7px">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:26px;line-height:1">38 000 so'm</span>
+<span style="font-size:11px;padding-bottom:3px;color:color-mix(in srgb,var(--color-text) 72%,transparent)">1 porsiya · 350 g</span>
+</div>
+<p style="margin:10px 0 0;font-size:12.5px;line-height:1.5;color:color-mix(in srgb,var(--color-text) 78%,transparent);text-wrap:pretty">Qozonda, o'tin olovida damlanadi. Devzira guruch, yosh mol go'shti va zira bilan. Buyurtmadan keyin tayyorlanadi.</p>
+</div>
+
+<div style="margin:14px 16px 0">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:6px">Texnik ma'lumot</div>
+<div style="display:flex;flex-direction:column">
+<sc-for list="{{ spec }}" as="r" hint-placeholder-count="5">
+<div style="display:flex;gap:12px;padding:6px 0;border-bottom:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);font-size:12px">
+<span style="width:100px;flex:none;color:color-mix(in srgb,var(--color-text) 74%,transparent)">{{ r.k }}</span>
+<span style="flex:1;line-height:1.35">{{ r.v }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="border-top:1px solid var(--color-divider);padding:10px 16px 12px;display:flex;align-items:center;gap:10px;background:var(--color-bg)">
+<div style="display:flex;align-items:center;border:1px solid var(--color-divider);height:44px;flex:none">
+<span style="width:36px;height:100%;display:grid;place-items:center"><svg width="15" height="15" style="display:block"><use href="#i-minus"></use></svg></span>
+<span style="width:30px;text-align:center;font-family:var(--font-heading);font-weight:600;font-size:16px">2</span>
+<span style="width:36px;height:100%;display:grid;place-items:center"><svg width="15" height="15" style="display:block"><use href="#i-plus"></use></svg></span>
+</div>
+<div style="flex:1;height:44px;background:var(--color-accent);color:var(--color-bg);display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-heading);font-weight:600;font-size:14px;letter-spacing:.05em">SAVATGA · 76 000 so'm</div>
+</div>
+
+</div>
+</x-import>
+</div>
+
+<div class="dv-opt" id="1f">
+<div class="dv-olabel"><a class="dv-oid" href="#1f">1f</a>Savat — har do'konga alohida</div>
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="428px,908px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);font-family:var(--font-body);color:var(--color-text)">
+
+<div style="padding:11px 16px;border-bottom:1px solid var(--color-divider)">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:20px;letter-spacing:.1em">SAVAT</div>
+<div style="font-size:10.5px;margin-top:2px;color:color-mix(in srgb,var(--color-text) 74%,transparent)">Har bir do'kon alohida yetkaziladi — alohida buyurtma beriladi</div>
+</div>
+
+<div style="flex:1;min-height:0;overflow:hidden;padding:12px 16px;display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{ carts }}" as="c" hint-placeholder-count="2">
+<div style="border:1px solid var(--color-divider)">
+<div style="display:flex;align-items:center;gap:8px;padding:9px 11px;border-bottom:1px solid var(--color-divider);background:var(--color-surface)">
+<span style="padding:2px 6px;background:{{ c.tone }};color:var(--color-bg);font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.08em">{{ c.n }}</span>
+<span style="flex:1;font-family:var(--font-heading);font-weight:600;font-size:12.5px;letter-spacing:.03em">{{ c.name }}</span>
+<span style="display:flex;align-items:center;gap:4px;font-size:10px;color:color-mix(in srgb,var(--color-text) 74%,transparent)"><svg width="11" height="11" style="display:block"><use href="#i-truck"></use></svg>{{ c.eta }}</span>
+</div>
+<sc-for list="{{ c.items }}" as="it" hint-placeholder-count="2">
+<div style="display:flex;align-items:center;gap:9px;padding:9px 11px;border-bottom:1px solid color-mix(in srgb,var(--color-text) 8%,transparent)">
+<div style="width:42px;height:42px;flex:none;display:grid;place-items:center;color:var(--color-accent-600);background:repeating-linear-gradient(45deg,var(--color-accent-200) 0 1px,transparent 1px 8px),var(--color-accent-100)"><svg width="16" height="16" style="display:block;opacity:.75"><use href="#i-image"></use></svg></div>
+<div style="flex:1;min-width:0">
+<div style="font-size:12px;line-height:1.25">{{ it.name }}</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:13px;margin-top:2px">{{ it.price }}</div>
+</div>
+<div style="display:flex;align-items:center;border:1px solid var(--color-divider);height:28px;flex:none">
+<span style="width:26px;height:100%;display:grid;place-items:center"><svg width="12" height="12" style="display:block"><use href="#i-minus"></use></svg></span>
+<span style="width:22px;text-align:center;font-family:var(--font-heading);font-weight:600;font-size:13px">{{ it.qty }}</span>
+<span style="width:26px;height:100%;display:grid;place-items:center"><svg width="12" height="12" style="display:block"><use href="#i-plus"></use></svg></span>
+</div>
+</div>
+</sc-for>
+<div style="display:flex;align-items:center;gap:10px;padding:9px 11px">
+<div style="flex:1">
+<div style="font-size:9.5px;color:color-mix(in srgb,var(--color-text) 72%,transparent)">Mahsulot {{ c.sub }} + yetkazish {{ c.ship }}</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:16px;margin-top:1px">{{ c.total }}</div>
+</div>
+<span style="padding:0 13px;height:34px;background:var(--color-accent);color:var(--color-bg);display:grid;place-items:center;font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:.05em">BUYURTMA BERISH</span>
+</div>
+</div>
+</sc-for>
+
+<div style="border:1px dashed color-mix(in srgb,var(--color-text) 22%,transparent);padding:10px 11px;display:flex;flex-direction:column;gap:7px">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 72%,transparent)">Bo'sh savatlar</span>
+<sc-for list="{{ emptyCarts }}" as="e" hint-placeholder-count="2">
+<div style="display:flex;align-items:center;gap:8px;color:color-mix(in srgb,var(--color-text) 74%,transparent)">
+<span style="padding:1px 5px;border:1px solid var(--color-divider);font-family:var(--font-heading);font-weight:600;font-size:9.5px;letter-spacing:.08em">{{ e.n }}</span>
+<span style="flex:1;font-size:11.5px">{{ e.name }}</span>
+<svg width="14" height="14" style="display:block"><use href="#i-right"></use></svg>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;border-top:1px solid var(--color-divider);background:var(--color-bg)">
+<sc-for list="{{ navCart }}" as="t" hint-placeholder-count="5">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 0 8px;border-top:2px solid {{ t.bar }};color:{{ t.c }}">
+<div style="position:relative">
+<svg width="20" height="20" style="display:block"><use href="{{ t.i }}"></use></svg>
+<sc-if value="{{ t.b }}"><span style="position:absolute;top:-4px;right:-9px;min-width:14px;height:14px;padding:0 3px;background:var(--color-accent);color:var(--color-bg);font-family:var(--font-heading);font-weight:600;font-size:9px;display:grid;place-items:center">{{ t.b }}</span></sc-if>
+</div>
+<sc-if value="{{ navLabels }}" hint-placeholder-val="{{ true }}"><span style="font-family:var(--font-heading);font-weight:600;font-size:9px;letter-spacing:.06em;text-transform:uppercase">{{ t.l }}</span></sc-if>
+</div>
+</sc-for>
+</div>
+
+</div>
+</x-import>
+</div>
+
+<div class="dv-opt" id="1g">
+<div class="dv-olabel"><a class="dv-oid" href="#1g">1g</a>Buyurtma rasmiylashtirish</div>
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="428px,908px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);font-family:var(--font-body);color:var(--color-text)">
+
+<div style="padding:10px 14px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--color-divider)">
+<svg width="20" height="20" style="display:block"><use href="#i-left"></use></svg>
+<div style="flex:1">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:15px;letter-spacing:.06em">BUYURTMA</div>
+<div style="font-size:10px;color:color-mix(in srgb,var(--color-text) 74%,transparent)">01 · OFIYAT MILLIY TAOMLARI</div>
+</div>
+</div>
+
+<div style="flex:1;min-height:0;overflow:hidden;padding:14px 16px;display:flex;flex-direction:column;gap:15px">
+
+<div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:7px">Yetkazish turi</div>
+<div style="display:flex;border:1px solid var(--color-divider)">
+<span style="flex:1;padding:8px 4px;text-align:center;background:var(--color-accent);color:var(--color-bg);font-family:var(--font-heading);font-weight:600;font-size:11.5px;letter-spacing:.04em">TEZ · 30–45 daq</span>
+<span style="flex:1;padding:8px 4px;text-align:center;border-left:1px solid var(--color-divider);font-family:var(--font-heading);font-weight:600;font-size:11.5px;letter-spacing:.04em">VAQT TANLASH</span>
+<span style="flex:1;padding:8px 4px;text-align:center;border-left:1px solid var(--color-divider);font-family:var(--font-heading);font-weight:600;font-size:11.5px;letter-spacing:.04em">O'ZIM OLAMAN</span>
+</div>
+</div>
+
+<div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:7px">Manzil</div>
+<div style="border:1px solid var(--color-divider);display:flex">
+<div style="width:78px;flex:none;border-right:1px solid var(--color-divider);display:grid;place-items:center;color:var(--color-accent-600);background:repeating-linear-gradient(0deg,var(--color-accent-200) 0 1px,transparent 1px 12px),repeating-linear-gradient(90deg,var(--color-accent-200) 0 1px,transparent 1px 12px),var(--color-accent-100)"><svg width="20" height="20" style="display:block"><use href="#i-pin"></use></svg></div>
+<div style="flex:1;padding:9px 11px">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:13.5px">Chilonzor 12-kv, 4-uy, 27-xonadon</div>
+<div style="font-size:10.5px;margin-top:2px;color:color-mix(in srgb,var(--color-text) 74%,transparent)">Domofon 27, 3-qavat · +998 90 123 45 67</div>
+<div style="font-size:10.5px;margin-top:5px;color:var(--color-accent-700)">O'zgartirish →</div>
+</div>
+</div>
+</div>
+
+<div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:7px">To'lov</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--color-accent)">
+<span style="width:15px;height:15px;border:1.5px solid var(--color-accent);background:var(--color-accent);box-shadow:inset 0 0 0 3.5px var(--color-bg);border-radius:50%;flex:none"></span>
+<svg width="17" height="17" style="display:block;color:var(--color-accent-700)"><use href="#i-card"></use></svg>
+<span style="flex:1;font-size:13px">Karta · Uzcard 8600 •••• 4471</span>
+</div>
+<div style="display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--color-divider)">
+<span style="width:15px;height:15px;border:1.5px solid var(--color-divider);border-radius:50%;flex:none"></span>
+<svg width="17" height="17" style="display:block;color:color-mix(in srgb,var(--color-text) 72%,transparent)"><use href="#i-cash"></use></svg>
+<span style="flex:1;font-size:13px">Naqd pul — kuryerga</span>
+</div>
+</div>
+</div>
+
+<div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:7px">Hisob</div>
+<table class="table" style="font-size:12.5px">
+<tbody>
+<tr><td style="padding:5px 0">Mahsulotlar (3 ta)</td><td style="padding:5px 0;text-align:right;font-family:var(--font-heading);font-weight:600;font-size:13.5px">90 000</td></tr>
+<tr><td style="padding:5px 0">Yetkazish</td><td style="padding:5px 0;text-align:right;font-family:var(--font-heading);font-weight:600;font-size:13.5px">15 000</td></tr>
+<tr><td style="padding:5px 0;color:color-mix(in srgb,var(--color-text) 74%,transparent)">Bonus (−)</td><td style="padding:5px 0;text-align:right;font-family:var(--font-heading);font-weight:600;font-size:13.5px;color:var(--color-accent-700)">−3 000</td></tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+<div style="border-top:1px solid var(--color-divider);padding:10px 16px 12px;background:var(--color-bg)">
+<div style="height:46px;background:var(--color-accent);color:var(--color-bg);display:flex;align-items:center;padding:0 16px">
+<span style="flex:1;font-family:var(--font-heading);font-weight:600;font-size:14px;letter-spacing:.06em">TASDIQLASH</span>
+<span style="font-family:var(--font-heading);font-weight:600;font-size:17px">102 000 so'm</span>
+</div>
+</div>
+
+</div>
+</x-import>
+</div>
+
+<div class="dv-opt" id="1h">
+<div class="dv-olabel"><a class="dv-oid" href="#1h">1h</a>Yo'q tovar buyurtmasi</div>
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="428px,908px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);font-family:var(--font-body);color:var(--color-text)">
+
+<div style="padding:10px 14px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--color-divider)">
+<svg width="19" height="19" style="display:block"><use href="#i-x"></use></svg>
+<span style="flex:1;font-family:var(--font-heading);font-weight:600;font-size:15px;letter-spacing:.06em">YO'Q TOVAR BUYURTMASI</span>
+</div>
+
+<div style="flex:1;min-height:0;overflow:hidden;padding:14px 16px;display:flex;flex-direction:column;gap:14px">
+<p style="margin:0;font-size:12.5px;line-height:1.5;color:color-mix(in srgb,var(--color-text) 78%,transparent);text-wrap:pretty">Appda topilmagan mahsulotni bizga ayting. Uchta usuldan xohlaganini ishlating — operator 10 daqiqa ichida narxini yozadi.</p>
+
+<div>
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;color:var(--color-accent-700)">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em">01 · MATN</span>
+<span style="flex:1;height:1px;background:var(--color-divider)"></span>
+</div>
+<div style="border:1px solid var(--color-divider);background:var(--color-surface);padding:9px 11px;min-height:66px;font-size:12.5px;line-height:1.45">Qora mayiz, 1 kg. Toshkent bozoridagidek yirikroq bo'lsin<span style="display:inline-block;width:1px;height:14px;background:var(--color-accent);vertical-align:-2px;margin-left:1px"></span></div>
+</div>
+
+<div>
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;color:var(--color-accent-700)">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em">02 · RASM</span>
+<span style="flex:1;height:1px;background:var(--color-divider)"></span>
+<span style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.08em;color:color-mix(in srgb,var(--color-text) 72%,transparent)">2 / 5</span>
+</div>
+<div style="display:flex;gap:9px">
+<div style="width:74px;height:74px;border:1px solid var(--color-divider);overflow:hidden"><image-slot id="mnb-req-1" shape="rect" fit="cover" placeholder="Rasm 1"></image-slot></div>
+<div style="width:74px;height:74px;border:1px solid var(--color-divider);overflow:hidden"><image-slot id="mnb-req-2" shape="rect" fit="cover" placeholder="Rasm 2"></image-slot></div>
+<div style="width:74px;height:74px;border:1px dashed color-mix(in srgb,var(--color-text) 28%,transparent);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:color-mix(in srgb,var(--color-text) 74%,transparent)">
+<svg width="20" height="20" style="display:block"><use href="#i-camera"></use></svg>
+<span style="font-family:var(--font-heading);font-weight:600;font-size:9.5px;letter-spacing:.06em">QO'SHISH</span>
+</div>
+</div>
+</div>
+
+<div>
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;color:var(--color-accent-700)">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em">03 · OVOZ</span>
+<span style="flex:1;height:1px;background:var(--color-divider)"></span>
+</div>
+<div style="border:1px solid var(--color-divider);padding:10px 11px;display:flex;align-items:center;gap:11px">
+<span style="width:40px;height:40px;flex:none;background:var(--color-accent);color:var(--color-bg);display:grid;place-items:center"><svg width="19" height="19" style="display:block"><use href="#i-mic"></use></svg></span>
+<div style="flex:1;display:flex;align-items:center;gap:2px;height:28px">
+<sc-for list="{{ wave }}" as="h" hint-placeholder-count="34">
+<span style="flex:1;height:{{ h }}%;background:var(--color-accent-400)"></span>
+</sc-for>
+</div>
+<span style="font-family:var(--font-heading);font-weight:600;font-size:13px;flex:none">0:14</span>
+</div>
+</div>
+
+<div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:7px">Qaysi do'kondan?</div>
+<div style="display:flex;flex-wrap:wrap;gap:7px">
+<span style="padding:5px 10px;background:var(--color-accent);color:var(--color-bg);font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.05em">MISQOL MARKET</span>
+<sc-for list="{{ otherStores }}" as="s" hint-placeholder-count="3">
+<span style="padding:5px 10px;border:1px solid var(--color-divider);font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.05em">{{ s }}</span>
+</sc-for>
+<span style="padding:5px 10px;border:1px dashed color-mix(in srgb,var(--color-text) 28%,transparent);font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.05em;color:color-mix(in srgb,var(--color-text) 74%,transparent)">BILMAYMAN</span>
+</div>
+</div>
+</div>
+
+<div style="border-top:1px solid var(--color-divider);padding:10px 16px 12px;background:var(--color-bg)">
+<div style="height:46px;background:var(--color-accent);color:var(--color-bg);display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-weight:600;font-size:14px;letter-spacing:.08em">YUBORISH</div>
+<div style="text-align:center;font-size:10px;margin-top:6px;color:color-mix(in srgb,var(--color-text) 72%,transparent)">Operator 10 daqiqa ichida javob beradi</div>
+</div>
+
+</div>
+</x-import>
+</div>
+
+<div class="dv-opt" id="1i">
+<div class="dv-olabel"><a class="dv-oid" href="#1i">1i</a>Qidiruv</div>
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" keyboard="{{ yes }}" hint-size="428px,908px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);font-family:var(--font-body);color:var(--color-text)">
+
+<div style="padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--color-divider)">
+<svg width="20" height="20" style="display:block"><use href="#i-left"></use></svg>
+<div style="flex:1;display:flex;align-items:center;gap:8px;height:38px;padding:0 11px;border:1px solid var(--color-accent);background:var(--color-surface)">
+<svg width="16" height="16" style="display:block;color:var(--color-accent-700)"><use href="#i-search"></use></svg>
+<span style="flex:1;font-size:13.5px">marinov<span style="display:inline-block;width:1px;height:15px;background:var(--color-accent);vertical-align:-3px"></span></span>
+<svg width="15" height="15" style="display:block;color:color-mix(in srgb,var(--color-text) 72%,transparent)"><use href="#i-x"></use></svg>
+</div>
+</div>
+
+<div style="flex:1;min-height:0;overflow:hidden">
+<div style="display:flex;align-items:center;gap:7px;padding:11px 14px 8px">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 72%,transparent)">Natijalar</span>
+<span style="font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.1em;color:color-mix(in srgb,var(--color-text) 72%,transparent)">03</span>
+<span style="flex:1;height:1px;background:var(--color-divider)"></span>
+<svg width="15" height="15" style="display:block;color:color-mix(in srgb,var(--color-text) 72%,transparent)"><use href="#i-filter"></use></svg>
+</div>
+
+<sc-for list="{{ results }}" as="r" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid color-mix(in srgb,var(--color-text) 8%,transparent)">
+<div style="width:46px;height:46px;flex:none;display:grid;place-items:center;color:var(--color-accent-600);background:repeating-linear-gradient(45deg,var(--color-accent-200) 0 1px,transparent 1px 8px),var(--color-accent-100)"><svg width="17" height="17" style="display:block;opacity:.75"><use href="#i-image"></use></svg></div>
+<div style="flex:1;min-width:0">
+<div style="font-size:12.5px;line-height:1.25">{{ r.name }}</div>
+<div style="display:flex;align-items:center;gap:5px;margin-top:3px">
+<span style="padding:1px 5px;background:{{ r.tone }};color:var(--color-bg);font-family:var(--font-heading);font-weight:600;font-size:8.5px;letter-spacing:.08em">{{ r.n }}</span>
+<span style="font-size:9.5px;color:color-mix(in srgb,var(--color-text) 72%,transparent)">{{ r.store }}</span>
+</div>
+</div>
+<div style="text-align:right;flex:none">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:13.5px">{{ r.price }}</div>
+<span style="display:inline-grid;place-items:center;width:24px;height:24px;background:var(--color-accent);color:var(--color-bg);margin-top:4px"><svg width="13" height="13" style="display:block"><use href="#i-plus"></use></svg></span>
+</div>
+</div>
+</sc-for>
+
+<div style="margin:12px 14px 0;border:1px solid var(--color-accent-400);background:var(--color-accent-100);padding:10px 11px;display:flex;align-items:center;gap:10px">
+<div style="flex:1">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:12.5px;letter-spacing:.02em">QIDIRGANINGIZ TOPILMADIMI?</div>
+<div style="font-size:10.5px;margin-top:2px;color:var(--color-accent-800)">Yo'q tovar buyurtmasi bering — matn, rasm yoki ovoz</div>
+</div>
+<span style="width:28px;height:28px;background:var(--color-accent);color:var(--color-bg);display:grid;place-items:center;flex:none"><svg width="15" height="15" style="display:block"><use href="#i-right"></use></svg></span>
+</div>
+</div>
+
+</div>
+</x-import>
+</div>
+
+<div class="dv-opt" id="1j">
+<div class="dv-olabel"><a class="dv-oid" href="#1j">1j</a>Profil</div>
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="428px,908px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);font-family:var(--font-body);color:var(--color-text)">
+
+<div style="padding:14px 16px 13px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--color-divider)">
+<div style="width:52px;height:52px;flex:none;border:1px solid var(--color-divider);display:grid;place-items:center;color:var(--color-accent-700);background:repeating-linear-gradient(45deg,var(--color-accent-200) 0 1px,transparent 1px 8px),var(--color-accent-100)"><svg width="24" height="24" style="display:block"><use href="#i-user"></use></svg></div>
+<div style="flex:1">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.1">Sardor Rahimov</div>
+<div style="font-size:11.5px;margin-top:2px;color:color-mix(in srgb,var(--color-text) 74%,transparent)">+998 90 123 45 67</div>
+</div>
+<svg width="18" height="18" style="display:block;color:color-mix(in srgb,var(--color-text) 72%,transparent)"><use href="#i-right"></use></svg>
+</div>
+
+<div style="flex:1;min-height:0;overflow:hidden">
+<div style="display:flex;border-bottom:1px solid var(--color-divider)">
+<sc-for list="{{ profStats }}" as="s" hint-placeholder-count="3">
+<div style="flex:1;padding:11px 12px;border-right:1px solid var(--color-divider);display:flex;flex-direction:column;gap:2px">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 72%,transparent)">{{ s.k }}</span>
+<span style="font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.1">{{ s.v }}</span>
+</div>
+</sc-for>
+</div>
+
+<sc-for list="{{ profRows }}" as="r" hint-placeholder-count="7">
+<div style="display:flex;align-items:center;gap:11px;padding:12px 16px;border-bottom:1px solid color-mix(in srgb,var(--color-text) 8%,transparent)">
+<svg width="18" height="18" style="display:block;color:var(--color-accent-700)"><use href="{{ r.i }}"></use></svg>
+<span style="flex:1;font-size:13px">{{ r.l }}</span>
+<sc-if value="{{ r.v }}"><span style="font-size:11.5px;color:color-mix(in srgb,var(--color-text) 72%,transparent)">{{ r.v }}</span></sc-if>
+<svg width="15" height="15" style="display:block;color:color-mix(in srgb,var(--color-text) 38%,transparent)"><use href="#i-right"></use></svg>
+</div>
+</sc-for>
+
+<div style="padding:16px;font-family:var(--font-heading);font-weight:600;font-size:10px;letter-spacing:.14em;color:color-mix(in srgb,var(--color-text) 35%,transparent)">MANABU · v2.0 · 4 DO'KON</div>
+</div>
+
+<div style="display:flex;border-top:1px solid var(--color-divider);background:var(--color-bg)">
+<sc-for list="{{ navProfile }}" as="t" hint-placeholder-count="5">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 0 8px;border-top:2px solid {{ t.bar }};color:{{ t.c }}">
+<div style="position:relative">
+<svg width="20" height="20" style="display:block"><use href="{{ t.i }}"></use></svg>
+<sc-if value="{{ t.b }}"><span style="position:absolute;top:-4px;right:-9px;min-width:14px;height:14px;padding:0 3px;background:var(--color-accent);color:var(--color-bg);font-family:var(--font-heading);font-weight:600;font-size:9px;display:grid;place-items:center">{{ t.b }}</span></sc-if>
+</div>
+<sc-if value="{{ navLabels }}" hint-placeholder-val="{{ true }}"><span style="font-family:var(--font-heading);font-weight:600;font-size:9px;letter-spacing:.06em;text-transform:uppercase">{{ t.l }}</span></sc-if>
+</div>
+</sc-for>
+</div>
+
+</div>
+</x-import>
+</div>
+
+</div>
+
+<p class="dv-next">Keyingi qadam: «<a class="dv-oid" href="#1a">1a</a> da do'kon kartochkalari kattaroq bo'lsin» · «<a class="dv-oid" href="#1b">1b</a> video balandligini kamaytir» · «savat bitta bo'lsin» · «boshqa yo'nalish ko'rsat»</p>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tileStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Rasmli&quot;,&quot;Chizma&quot;],&quot;default&quot;:&quot;Rasmli&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Do'kon kartochkasi&quot;},&quot;navLabels&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Pastki menyu&quot;},&quot;priceUnit&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;so'm&quot;,&quot;UZS&quot;,&quot;&quot;],&quot;default&quot;:&quot;so'm&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Narx&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const tile = p.tileStyle ?? "Rasmli";
+    const unit = p.priceUnit ?? "so'm";
+    const m = (n) => unit ? n + " " + unit : n;
+
+    const T = ['var(--color-accent-900)','var(--color-accent-800)','var(--color-accent-700)','var(--color-accent-600)'];
+
+    const stores = [
+      { n:'01', slot:'mnb-st1', tone:T[0], icon:'#i-utensils', name:'OFIYAT MILLIY TAOMLARI',
+        kind:'Restoran · issiq taomlar', time:'30–45 daq', count:'86 ta', ph:'Osh / milliy taom' },
+      { n:'02', slot:'mnb-st2', tone:T[1], icon:'#i-basket', name:'MISQOL MARKET',
+        kind:"Oziq-ovqat do'koni", time:'40–60 daq', count:'1 240 ta', ph:'Oziq-ovqat javoni' },
+      { n:'03', slot:'mnb-st3', tone:T[2], icon:'#i-flame', name:'SHASHLIK MARENOFKA',
+        kind:'Marinovka sexi · ishlab chiqarish', time:'2 soat', count:'18 tur', ph:'Marinovka / go‘sht' },
+      { n:'04', slot:'mnb-st4', tone:T[3], icon:'#i-package', name:'1005 XIL MAHSULOT',
+        kind:"Xo'jalik mollari", time:'40–60 daq', count:'1 005 ta', ph:"Xo'jalik mollari" },
+    ];
+
+    const nav = (act) => [
+      { i:'#i-home', l:'Bosh sahifa', k:'home' },
+      { i:'#i-play', l:'Video', k:'video' },
+      { i:'#i-cart', l:'Savat', k:'cart', b:'6' },
+      { i:'#i-clipboard', l:'Buyurtmalar', k:'orders' },
+      { i:'#i-user', l:'Profil', k:'profile' },
+    ].map(t => ({
+      ...t,
+      c: t.k === act ? 'var(--color-accent-800)' : 'color-mix(in srgb, var(--color-text) 68%, transparent)',
+      bar: t.k === act ? 'var(--color-accent)' : 'transparent',
+    }));
+
+    const wave = [22,48,70,36,88,54,30,66,92,44,26,58,80,38,64,100,46,28,72,52,86,34,60,24,78,42,68,32,90,50,26,62,40,20];
+
+    return {
+      yes: true,
+      navLabels: p.navLabels ?? true,
+      tilePhoto: tile === 'Rasmli',
+      tileDiagram: tile === 'Chizma',
+      stores,
+      navHome: nav('home'), navVideo: nav('video'), navCart: nav('cart'), navProfile: nav('profile'),
+      wave,
+
+      vid1: [
+        { name:"Mol go'shti marinovka", unit:'1 kg', price:m('89 000') },
+        { name:"Qo'y qovurg'a marinovka", unit:'1 kg', price:m('115 000') },
+        { name:'Tovuq marinovka', unit:'1 kg', price:m('52 000') },
+        { name:'Lyulya-kabob massasi', unit:'1 kg', price:m('78 000') },
+      ],
+
+      storeMeta: [
+        { k:'Reyting', v:'4,8' },
+        { k:'Yetkazish', v:'15 000' },
+        { k:'Eng kam', v:'50 000' },
+      ],
+      cats: ['MILLIY TAOMLAR','SHO‘RVALAR','SOMSA','SALATLAR','ICHIMLIKLAR'],
+      menu: [
+        { name:'Toshkent oshi', unit:'350 g · 1 porsiya', price:m('38 000') },
+        { name:'Norin', unit:'300 g', price:m('42 000') },
+        { name:'Manti', unit:'5 dona', price:m('35 000') },
+        { name:"Lag'mon", unit:'400 g', price:m('40 000') },
+      ],
+
+      spec: [
+        { k:"Do'kon", v:'01 · OFIYAT MILLIY TAOMLARI' },
+        { k:'Vazn', v:'350 g (1 porsiya)' },
+        { k:'Tarkib', v:"Devzira guruch, mol go'shti, sabzi, piyoz, zira" },
+        { k:'Tayyorlanish', v:'20–25 daqiqa' },
+        { k:'Kaloriya', v:'620 kkal' },
+      ],
+
+      carts: [
+        { n:'01', tone:T[0], name:'OFIYAT MILLIY TAOMLARI', eta:'30–45 daq',
+          items:[
+            { name:'Toshkent oshi', qty:'2', price:m('76 000') },
+            { name:'Achchiq-chuchuk', qty:'1', price:m('14 000') },
+          ], sub:'90 000', ship:'15 000', total:m('105 000') },
+        { n:'04', tone:T[3], name:'1005 XIL MAHSULOT', eta:'40–60 daq',
+          items:[
+            { name:'Yuvish kukuni, 3 kg', qty:'1', price:m('68 000') },
+            { name:'Idish yuvish suyuqligi', qty:'2', price:m('44 000') },
+          ], sub:'112 000', ship:'12 000', total:m('124 000') },
+      ],
+      emptyCarts: [
+        { n:'02', name:'MISQOL MARKET — savat bo‘sh' },
+        { n:'03', name:'SHASHLIK MARENOFKA — savat bo‘sh' },
+      ],
+
+      results: [
+        { name:"Mol go'shti marinovka, 1 kg", n:'03', tone:T[2], store:'SHASHLIK MARENOFKA', price:m('89 000') },
+        { name:'Tovuq marinovka, 1 kg', n:'03', tone:T[2], store:'SHASHLIK MARENOFKA', price:m('52 000') },
+        { name:"Marinovka uchun ziravor to'plami", n:'02', tone:T[1], store:'MISQOL MARKET', price:m('24 000') },
+      ],
+      otherStores: ['OFIYAT','1005 XIL','MARENOFKA'],
+
+      profStats: [
+        { k:'Buyurtmalar', v:'24' },
+        { k:'Faol', v:'2' },
+        { k:'Bonus', v:'12 400' },
+      ],
+      profRows: [
+        { i:'#i-pin', l:'Mening manzillarim', v:'3 ta' },
+        { i:'#i-clipboard', l:'Buyurtmalar tarixi', v:'' },
+        { i:'#i-card', l:"To'lov kartalari", v:'2 ta' },
+        { i:'#i-text', l:"Yo'q tovar so'rovlarim", v:'2 ta' },
+        { i:'#i-star', l:'Sevimli mahsulotlar', v:'' },
+        { i:'#i-truck', l:'Yetkazish sozlamalari', v:'' },
+        { i:'#i-user', l:'Til / Язык', v:"O'zbekcha" },
+      ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>
